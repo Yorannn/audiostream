@@ -1,0 +1,28 @@
+The following protocol is used by my server and client:
+1. Server is running waiting for a filerequest.
+2. Client sends a file request.
+3. Server checks if the file is there. If it is it opens the file and checks the sample rate, sample size and channels.
+4. Server waits for sample rate request.
+5. Client sends sample rate request and sets it when it's received.
+6. Server waits for sample size request.
+7. Client sends sample size request and sets it when it's received.
+8. Server waits for channels request.
+9. Client sends channels request and sets it when it's received.
+10. Server waits for "start streaming" signal from client.
+11. If all values are successfully set the client sends a "start streaming" signal and starts reading packets.
+12. Server starts streaming audio.
+13. When the end of the wav file is reached the server sends a "stop" signal and starts waiting for a new file request.
+14. Client reads stop signal and terminates.
+
+In addition to the protocol above, I have added 3 filters.
+1. Higher Pitch
+2. Lower Volume
+3. Stereo to Mono
+
+The first two are client sided. 
+
+Higher pitch just increases the sample_frequency to increase the pitch. It can be used by using the parameter “higherpitch”.
+
+Lower Volume lowers the volume of the sound file by bringing the air pressure values closer to zero. It can be used by using the parameter “lowervolume”.
+
+Stereo to Mono only works when a sound file is stereo to begin with. It will make the server stream only one channel to the client cutting the file size in half. It can be used by using the parameter “mono”
